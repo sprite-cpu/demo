@@ -1,6 +1,8 @@
 pipeline {
     agent any  // 어느 에이전트에서든 실행 가능
-
+    tools {
+        maven 'Maven 3.9.9'   // 위에서 지정한 이름
+      }
     stages {
         stage('Build') {
             steps {
