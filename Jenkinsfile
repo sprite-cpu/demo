@@ -16,12 +16,12 @@ pipeline {
                 bat 'mvn test'
             }
         }
-        stage('Deploy') {
+ /*        stage('Deploy') {
             steps {
                 // 배포 명령어 실행
                 bat 'mvn deploy'
             }
-        }
+        } */
     }
 
     post {
