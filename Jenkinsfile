@@ -5,16 +5,21 @@ pipeline {
       }
     stages {
         stage('Build') {
-            steps {
-                // Windows 환경에서는 `bat` 명령어를 사용
+            when {
+                // 푸시된 변경 사항 중에 pom.xml 파일이 있으면 true
+                changeset pattern: '**/pom.xml', comparator: 'REGEXP'
+                 }
+              steps {
                 bat 'mvn clean install'
-            }
+              }
         }
         stage('Test') {
-            steps {
-                // 테스트 실행
+            when {
+                    changeset pattern: '**/pom.xml', comparator: 'REGEXP'
+                  }
+              steps {
                 bat 'mvn test'
-            }
+              }
         }
  /*        stage('Deploy') {
             steps {
