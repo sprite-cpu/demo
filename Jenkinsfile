@@ -4,6 +4,11 @@ pipeline {
         maven 'Maven 3.9.9'   // 위에서 지정한 이름
       }
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/sprite-cpu/demo.git'
+            }
+        }
         stage('Build') {
             when {
                 // 푸시된 변경 사항 중에 pom.xml 파일이 있으면 true
@@ -13,7 +18,7 @@ pipeline {
                 bat 'mvn clean install'
               }
         }
-        stage('Test') {
+        stage('Extract Version') {
             when {
                     changeset pattern: '**/pom.xml', comparator: 'REGEXP'
                   }
