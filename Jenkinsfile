@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/sprite-cpu/demo.git'
+                git credentialsId: 'mykey', url: 'git@github.com:sprite-cpu/demo.git'
             }
         }
         stage('Build') {
