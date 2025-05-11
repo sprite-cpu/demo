@@ -8,6 +8,11 @@ public class TestController {
     // GET 요청을 처리하는 메서드
     @GetMapping("/test")
     public String testApi() {
-        return "Hello, World! This is a test API!";
+        return "Hello, World! This is a test API!!!";
+    }
+
+    @GetMapping("/testpage")
+    public String testPage() {
+        return "testpage";
     }
 }
