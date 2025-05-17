@@ -32,7 +32,7 @@ pipeline {
         stage('Build') {
             when {
                 // 푸시된 변경 사항 중에 pom.xml 파일이 있으면 true
-                changeset pattern: '**/pom.xml', comparator: 'REGEXP'
+                changeset pattern: '**/pom.xml', comparator: 'GLOB'
                  }
               steps {
                 bat 'mvn clean install'
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Maven Test') {
             when {
-                    changeset pattern: '**/pom.xml', comparator: 'REGEXP'
+                    changeset pattern: '**/pom.xml', comparator: 'GLOB'
                   }
               steps {
                 bat 'mvn test'
