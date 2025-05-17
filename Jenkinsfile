@@ -25,7 +25,6 @@ pipeline {
                                 call set "line=!line:*<version>=!"
                                 call set "line=!line:</version>=!"
                                 echo Project Version: !line!
-                                echo VERSION=!line!
                                 echo !line! > version.txt
                                 endlocal
                 '''
@@ -55,6 +54,26 @@ pipeline {
                     echo ' 도커 이미지 태그: ${version}'
                     def tag = "my-demo-app:${version}"
                     bat "docker build -t ${tag} ."
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        def version = readFile('version.txt').trim()
+                        def image = 'ganjanggeyoran/my-demo-app:${version}'
+
+                        echo '🔐 Docker Hub 로그인 중...'
+                        bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
+
+                        echo '📦 이미지 태깅: ${image}'
+                        bat 'docker tag my-demo-app:${version} ${image}'
+
+                        echo '⏫ 도커 푸시 시작!'
+                        bat 'docker push ${image}'
+                    }
                 }
             }
         }
