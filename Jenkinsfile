@@ -25,6 +25,7 @@ pipeline {
                                 call set "line=!line:*<version>=!"
                                 call set "line=!line:</version>=!"
                                 echo Project Version: !line!
+                                echo VERSION=!line! > version.txt
                                 endlocal
                 '''
             }
@@ -48,9 +49,15 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                bat 'docker build -t my-demo-app .'
+                script {
+                    def version = readFile('version.txt').trim()
+                    echo ' 도커 이미지 태그: ${version}'
+                    def tag = "my-demo-app:${version}"
+                    bat "docker build -t ${tag} ."
+                }
             }
         }
+
         /*
    stage('Deploy') {
             steps {
