@@ -25,7 +25,8 @@ pipeline {
                                 call set "line=!line:*<version>=!"
                                 call set "line=!line:</version>=!"
                                 echo Project Version: !line!
-                                echo VERSION=!line! > version.txt
+                                echo VERSION=!line!
+                                echo !line! > version.txt
                                 endlocal
                 '''
             }
