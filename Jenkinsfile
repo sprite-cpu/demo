@@ -4,9 +4,29 @@ pipeline {
         maven 'Maven 3.9.9'   // 위에서 지정한 이름
       }
     stages {
+        stage('Java Version Check') {
+            steps {
+                bat 'java -version'
+            }
+        }
         stage('Checkout') {
             steps {
                 git credentialsId: 'mykey', url: 'git@github.com:sprite-cpu/demo.git'
+            }
+        }
+        stage('Extract Version') {
+            steps {
+                bat '''
+                    @echo off
+                                setlocal enabledelayedexpansion
+                                for /f "delims=" %%a in ('findstr /i "<version>" pom.xml ^| findstr /v "<parent>" ^| findstr /v "<dependency>"') do (
+                                    set "line=%%a"
+                                )
+                                call set "line=!line:*<version>=!"
+                                call set "line=!line:</version>=!"
+                                echo Project Version: !line!
+                                endlocal
+                '''
             }
         }
         stage('Build') {
@@ -18,7 +38,7 @@ pipeline {
                 bat 'mvn clean install'
               }
         }
-        stage('Extract Version') {
+        stage('Maven Test') {
             when {
                     changeset pattern: '**/pom.xml', comparator: 'REGEXP'
                   }
