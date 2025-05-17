@@ -63,7 +63,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     script {
                         def version = readFile('version.txt').trim()
-                        def image = 'ganjanggeyoran/my-demo-app:${version}'
+                        def image = "ganjanggeyoran/my-demo-app:${version}"
 
                         echo '🔐 Docker Hub 로그인 중...'
                         bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
