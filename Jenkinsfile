@@ -65,14 +65,14 @@ pipeline {
                         def version = readFile('version.txt').trim()
                         def image = "ganjanggeyoran/my-demo-app:${version}"
 
-                        echo '🔐 Docker Hub 로그인 중...'
-                        bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
+                        echo "🔐 Docker Hub 로그인 중..."
+                        bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
 
-                        echo '📦 이미지 태깅: ${image}'
-                        bat 'docker tag my-demo-app:${version} ${image}'
+                        echo "📦 이미지 태깅: ${image}"
+                        bat "docker tag my-demo-app:${version} ${image}"
 
-                        echo '⏫ 도커 푸시 시작!'
-                        bat 'docker push ${image}'
+                        echo "⏫ 도커 푸시 시작!"
+                        bat "docker push ${image}"
                     }
                 }
             }
