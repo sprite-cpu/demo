@@ -46,7 +46,13 @@ pipeline {
                 bat 'mvn test'
               }
         }
- /*        stage('Deploy') {
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t my-demo-app .'
+            }
+        }
+        /*
+   stage('Deploy') {
             steps {
                 // 배포 명령어 실행
                 bat 'mvn deploy'
